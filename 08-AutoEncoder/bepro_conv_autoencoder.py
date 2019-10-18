@@ -10,6 +10,7 @@ from torchvision import transforms
 from torchvision.utils import save_image
 import os
 import sys
+from PIL import Image
 
 data_file = sys.argv[1]
 
