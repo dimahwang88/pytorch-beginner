@@ -1,6 +1,10 @@
 #!/bin/bash
 #gsutil cp gs://bepro-server-storage/dsort_tracking_data/"$rec_id"/hypotheses_1.txt dsort_out/ 
+gsutil cp gs://bepro-server-storage/dsort_tracking_data/autoencoder_data/association_dataset.zip
+unzip association_dataset.zip
+
+cd ./association_dataset/training
+find "$PWD" >> pwd_dataset.txt
+
 source activate open-mmlab
-pip install Pillow
-gsutil cp gs://bepro-server-storage/dsort_tracking_data/autoencoder_data/pwd_dataset.txt ./08-AutoEncoder/
-python ./08-AutoEncoder/bepro_conv_autoencoder.py ./08-AutoEncoder/pwd_dataset.txt
+python ./08-AutoEncoder/bepro_conv_autoencoder.py ./association_dataset/training/pwd_dataset.txt
