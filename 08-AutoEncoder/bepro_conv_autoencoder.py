@@ -37,7 +37,7 @@ class BeproDatasetAutoencoder(Dataset):
         img_as_resize = self.to_resize(img_as_img)
         img_as_tensor = self.to_tensor(img_as_resize)
         img_as_norm = self.to_normal(img_as_tensor)
-        return (img_as_norm,)
+        return img_as_norm
 
     def __len__(self):
         return self.data_len
