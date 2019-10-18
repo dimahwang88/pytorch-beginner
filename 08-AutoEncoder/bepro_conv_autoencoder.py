@@ -20,10 +20,11 @@ class BeproDatasetAutoencoder(Dataset):
 
         f = open(img_txt_path, 'r')
         for path in f:
+            path = path[:-1]
             if not os.path.isfile(path):
                 print('deprecated: ' + path)
                 continue
-            self.data_info.append(path[:-1])
+            self.data_info.append(path)
 
         self.to_tensor = transforms.ToTensor()
         self.to_normal = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
