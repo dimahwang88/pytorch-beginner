@@ -9,6 +9,9 @@ from torch.autograd import Variable
 from torchvision import transforms
 from torchvision.utils import save_image
 import os
+import sys
+
+data_file = sys.argv[1]
 
 class BeproDatasetAutoencoder(Dataset):
     def __init__(self, img_txt_path):
@@ -20,7 +23,7 @@ class BeproDatasetAutoencoder(Dataset):
 
         self.to_tensor = transforms.ToTensor()
         self.to_normal = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-        self.to_resize = transforms.Resize((48,48))
+        self.to_resize = transforms.Resize((128,128))
         self.data_len = len(self.data_info)
 
     def __getitem__(self, index):
@@ -72,7 +75,7 @@ num_epochs = 100
 batch_size = 32
 learning_rate = 1e-3
 
-dataset = BeproDatasetAutoencoder("file.txt")
+dataset = BeproDatasetAutoencoder(data_file)
 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
 model = autoencoder().cuda()
