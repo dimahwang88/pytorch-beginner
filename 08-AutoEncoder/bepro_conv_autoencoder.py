@@ -20,6 +20,12 @@ class BeproDatasetAutoencoder(Dataset):
 
         f = open(img_txt_path, 'r')
         for path in f:
+            path_lst = path.split('/')
+            img_id = path_lst[-1]
+            img_id_lst = img_id.split('.')
+            if img_id_lst[-1] != 'jpg':
+                print('deprecated:' + path)
+                continue
             self.data_info.append(path[:-1])
 
         self.to_tensor = transforms.ToTensor()
