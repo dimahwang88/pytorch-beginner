@@ -88,7 +88,8 @@ criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate,
                              weight_decay=1e-5)
 
-print(type(dataloader))
+print(len(dataloader.dataset))
+
 for epoch in range(num_epochs):
     for data in dataloader:
         img = data
