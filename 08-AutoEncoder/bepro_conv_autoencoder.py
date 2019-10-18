@@ -77,7 +77,7 @@ def to_img(x):
     return x
 
 num_epochs = 100
-batch_size = 32
+batch_size = 64
 learning_rate = 1e-3
 
 dataset = BeproDatasetAutoencoder(data_file)
@@ -99,7 +99,7 @@ for epoch in range(num_epochs):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, loss.data[0]))
+        print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, loss.item()))
 
 #    if epoch % 10 == 0:
 #        pic = to_img(output.cpu().data)
