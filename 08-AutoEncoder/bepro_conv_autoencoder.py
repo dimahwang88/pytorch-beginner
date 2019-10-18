@@ -20,7 +20,7 @@ class BeproDatasetAutoencoder(Dataset):
 
         f = open(img_txt_path, 'r')
         for path in f:
-            if os.path.isdir(path):
+            if not os.path.isfile(path):
                 print('deprecated: ' + path)
                 continue
             self.data_info.append(path[:-1])
