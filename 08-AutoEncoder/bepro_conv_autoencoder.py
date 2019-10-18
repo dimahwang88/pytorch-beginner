@@ -22,7 +22,7 @@ class BeproDatasetAutoencoder(Dataset):
         for path in f:
             path = path[:-1]
             if not os.path.isfile(path):
-                print('deprecated: ' + path)
+                print('depricated: ' + path)
                 continue
             self.data_info.append(path)
 
@@ -90,7 +90,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate,
 
 for epoch in range(num_epochs):
     for data in dataloader:
-        img, _ = data
+        img = data
         img = Variable(img).cuda()
         # ===================forward=====================
         output = model(img)
