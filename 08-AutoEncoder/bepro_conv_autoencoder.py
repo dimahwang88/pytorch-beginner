@@ -88,10 +88,10 @@ criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate,
                              weight_decay=1e-5)
 
-print(len(dataloader.dataset))
+n_batches = int(len(dataloader.dataset) / batch_size)
 
 for epoch in range(num_epochs):
-    for data in dataloader:
+    for batch_num, data in enumerate(dataloader):
         img = data
         img = Variable(img).cuda()
         # ===================forward=====================
@@ -101,7 +101,11 @@ for epoch in range(num_epochs):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, loss.item()))
+
+        if batch_num % 50 == 0:
+            print('epoch [{}/{}] batch  [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, batch_num, n_batches, loss.item()))
+        
+    print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, loss.data[0]))
 
 #    if epoch % 10 == 0:
 #        pic = to_img(output.cpu().data)
