@@ -28,7 +28,7 @@ class BeproDatasetAutoencoder(Dataset):
 
         self.to_tensor = transforms.ToTensor()
         self.to_normal = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-        self.to_resize = transforms.Resize((128,128))
+        self.to_resize = transforms.Resize((28,28))
         self.data_len = len(self.data_info)
 
     def __getitem__(self, index):
