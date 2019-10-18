@@ -102,7 +102,7 @@ for epoch in range(num_epochs):
         loss.backward()
         optimizer.step()
 
-        if batch_num % 50 == 0:
+        if batch_num != 0 and batch_num % 100 == 0:
             print('epoch [{}/{}] batch  [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, batch_num, n_batches, loss.item()))
         
     print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, loss.data[0]))
