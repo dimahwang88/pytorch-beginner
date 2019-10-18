@@ -17,7 +17,7 @@ class BeproDatasetAutoencoder(Dataset):
     def __init__(self, img_txt_path):
         self.data_info = []
 
-        f = fopen(img_txt_path, 'r')
+        f = open(img_txt_path, 'r')
         for directory_path in f:
             self.data_info.append(directory_path)
 
