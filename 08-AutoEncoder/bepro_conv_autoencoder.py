@@ -19,8 +19,8 @@ class BeproDatasetAutoencoder(Dataset):
         self.data_info = []
 
         f = open(img_txt_path, 'r')
-        for directory_path in f:
-            self.data_info.append(directory_path)
+        for path in f:
+            self.data_info.append(path[:-1])
 
         self.to_tensor = transforms.ToTensor()
         self.to_normal = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
