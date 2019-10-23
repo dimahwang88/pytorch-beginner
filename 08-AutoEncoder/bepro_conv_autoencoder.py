@@ -69,11 +69,14 @@ class autoencoder(nn.Module):
         )
 
     def forward(self, x):
-        for layer in self.encoder:
+        #for layer in self.encoder:
+        #    x = layer(x)
+        #    print(x.size())
+        x = self.encoder(x)       
+        for layer in self.decoder:
             x = layer(x)
             print(x.size())
-        #x = self.encoder(x)
-        x = self.decoder(x)
+#        x = self.decoder(x)
         return x
 
 if not os.path.exists('./dc_img'):
