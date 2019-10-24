@@ -110,7 +110,7 @@ for epoch in range(num_epochs):
 
         if batch_num % 100 == 0:
             pic = to_img(output.cpu().data)
-            save_image(pic, './dc_img/image_{}.png'.format(batch_num))
+            save_image(pic, './dc_img/image_{}_{}.png'.format(epoch, batch_num))
             print('epoch [{}/{}] batch  [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, batch_num, n_batches, loss.item()))
         
     print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, loss.data[0]))
