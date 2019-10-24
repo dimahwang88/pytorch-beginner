@@ -73,13 +73,10 @@ class autoencoder(nn.Module):
         x = self.decoder(x)
         return x
 
-if not os.path.exists('./dc_img'):
-    os.mkdir('./dc_img')
-
 def to_img(x):
     x = 0.5 * (x + 1)
     x = x.clamp(0, 1)
-    x = x.view(x.size(0), 1, 28, 28)
+    x = x.view(x.size(0), 3, 128, 128)
     return x
 
 num_epochs = 100
@@ -96,6 +93,9 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate,
 
 n_batches = int(len(dataloader.dataset) / batch_size)
 
+if not os.path.exists('./dc_img'):
+    os.mkdir('./dc_img')
+
 for epoch in range(num_epochs):
     for batch_num, data in enumerate(dataloader):
         img = data
@@ -108,13 +108,11 @@ for epoch in range(num_epochs):
         loss.backward()
         optimizer.step()
 
-        if batch_num % 100 == 0:
+        if batch_num % 20 == 0:
+            pic = to_img(output.cpu().data)
+            save_image(pic, './dc_img/image_{}.png'.format(epoch))
             print('epoch [{}/{}] batch  [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, batch_num, n_batches, loss.item()))
         
     print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, loss.data[0]))
-
-    if epoch % 10 == 0:
-        pic = to_img(output.cpu().data)
-        save_image(pic, './dc_img/image_{}.png'.format(epoch))
 
 torch.save(model.state_dict(), './conv_autoencoder.pth')
