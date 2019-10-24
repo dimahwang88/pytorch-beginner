@@ -54,7 +54,6 @@ class autoencoder(nn.Module):
             nn.MaxPool2d(2, stride=(2,2)),  # b, 8, 8, 8
             nn.Conv2d(8, 8, (3,3), stride=(2,2), padding=(1,1)),  # b, 8, 4, 4
             nn.ReLU(True),
-#            nn.MaxPool2d(1, stride=1),  # b, 8, 4, 4
         )
 
         self.decoder = nn.Sequential(
