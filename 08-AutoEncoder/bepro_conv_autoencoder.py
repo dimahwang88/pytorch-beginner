@@ -65,7 +65,8 @@ class autoencoder(nn.Module):
             nn.ReLU(True),
             nn.ConvTranspose2d(64, 3, (4,4), stride=(2,2), padding=(2,2)),  # b, 3, 128, 128
             nn.Tanh()
-            
+        )
+
         # with upsampling
         #self.encoder = nn.Sequential(
         #    nn.Conv2d(3, 64, (5,5), stride=(2,2), padding=(1,1)),  # b, 64, 64, 64
