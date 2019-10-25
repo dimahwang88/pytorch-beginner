@@ -80,7 +80,7 @@ class autoencoder(nn.Module):
 
         self.decoder = nn.Sequential(
             nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
-            nn.Conv2d(8, 16, (3,3), stride=(1,1), padding=(0,0)),  # b, 16, 16, 16
+            nn.Conv2d(4, 16, (3,3), stride=(1,1), padding=(0,0)),  # b, 16, 16, 16
             nn.ReLU(True),
 
             nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
