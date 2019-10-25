@@ -92,7 +92,7 @@ class autoencoder(nn.Module):
             nn.ReLU(True),
 
             nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
-            nn.Conv2d(64, 3, (5,5), stride=(1,1), padding=(1,1)),  # b, 3, 128, 128
+            nn.Conv2d(64, 3, (5,5), stride=(1,1), padding=(2,2)),  # b, 3, 128, 128
             nn.Tanh()
         )
 
