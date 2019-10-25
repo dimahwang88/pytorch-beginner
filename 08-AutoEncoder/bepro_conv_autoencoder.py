@@ -79,19 +79,19 @@ class autoencoder(nn.Module):
         )
 
         self.decoder = nn.Sequential(
-            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
+            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
             nn.Conv2d(8, 16, (3,3), stride=(1,1), padding=(0,0)),  # b, 16, 16, 16
             nn.ReLU(True),
 
-            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
+            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
             nn.Conv2d(16, 32, (3,3), stride=(1,1), padding=(0,0)),  # b, 32, 32, 32
             nn.ReLU(True),
 
-            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
+            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
             nn.Conv2d(32, 64, (3,3), stride=(1,1), padding=(0,0)),  # b, 64, 64, 64
             nn.ReLU(True),
 
-            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
+            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
             nn.Conv2d(64, 3, (5,5), stride=(1,1), padding=(0,0)),  # b, 3, 128, 128
             nn.Tanh()
         )
