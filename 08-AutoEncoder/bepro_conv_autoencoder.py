@@ -97,16 +97,16 @@ class autoencoder(nn.Module):
         )
 
     def forward(self, x):
-        #for layer in self.encoder:
-        #    x = layer(x)
-        #    print(x.size())
-        #
-        #for layer in self.decoder:
-        #    x = layer(x)
-        #    print(x.size())
+        for layer in self.encoder:
+            x = layer(x)
+            print(x.size())
+        
+        for layer in self.decoder:
+            x = layer(x)
+            print(x.size())
 
-        x = self.encoder(x)       
-        x = self.decoder(x)
+        #x = self.encoder(x)       
+        #x = self.decoder(x)
         return x
 
 def to_img(x):
