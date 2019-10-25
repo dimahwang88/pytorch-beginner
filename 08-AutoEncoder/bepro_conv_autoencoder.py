@@ -65,7 +65,7 @@ class autoencoder(nn.Module):
             nn.ReLU(True),
             nn.ConvTranspose2d(32, 64, (3,3), stride=(2,2), padding=(1,1)),  # b, 64, 65, 65
             nn.ReLU(True),
-            nn.ConvTranspose2d(64, 3, (4,4), stride=(2,2), padding=(3,3)),  # b, 3, 128, 128
+            nn.ConvTranspose2d(64, 3, (4,4), stride=(2,2), padding=(2,2)),  # b, 3, 128, 128
             nn.Tanh()
         )
 
