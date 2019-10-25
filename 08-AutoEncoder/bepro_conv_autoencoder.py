@@ -45,8 +45,30 @@ class BeproDatasetAutoencoder(Dataset):
 class autoencoder(nn.Module):
     def __init__(self):
         super(autoencoder, self).__init__()
+        #self.encoder = nn.Sequential(
+        #    nn.Conv2d(3, 64, (5,5), stride=(2,2), padding=(2,2)),  # b, 64, 64, 64
+        #    nn.ReLU(True),
+        #    nn.Conv2d(64, 32, (3,3), stride=(2,2), padding=(1,1)),  # b, 32, 32, 32
+        #    nn.ReLU(True),
+        #    nn.Conv2d(32, 16, (3,3), stride=(2,2), padding=(1,1)),  # b, 16, 16, 16
+        #    nn.ReLU(True),
+        #    nn.Conv2d(16, 4, (3,3), stride=(2,2), padding=(1,1)),  # b, 4, 8, 8
+        #    nn.ReLU(True)
+        #)
+
+        #self.decoder = nn.Sequential(
+        #    nn.ConvTranspose2d(4, 16, (3,3), stride=(2,2), padding=(0,0)),  # b, 16, 17, 17
+        #    nn.ReLU(True),
+        #    nn.ConvTranspose2d(16, 32, (3,3), stride=(2,2), padding=(1,1)),  # b, 32, 33, 33
+        #    nn.ReLU(True),
+        #    nn.ConvTranspose2d(32, 64, (3,3), stride=(2,2), padding=(1,1)),  # b, 64, 65, 65
+        #    nn.ReLU(True),
+        #    nn.ConvTranspose2d(64, 3, (4,4), stride=(2,2), padding=(2,2)),  # b, 3, 128, 128
+        #    nn.Tanh()
+
+        # with upsampling
         self.encoder = nn.Sequential(
-            nn.Conv2d(3, 64, (5,5), stride=(2,2), padding=(2,2)),  # b, 64, 64, 64
+            nn.Conv2d(3, 64, (5,5), stride=(2,2), padding=(1,1)),  # b, 64, 64, 64
             nn.ReLU(True),
             nn.Conv2d(64, 32, (3,3), stride=(2,2), padding=(1,1)),  # b, 32, 32, 32
             nn.ReLU(True),
@@ -57,13 +79,20 @@ class autoencoder(nn.Module):
         )
 
         self.decoder = nn.Sequential(
-            nn.ConvTranspose2d(4, 16, (3,3), stride=(2,2), padding=(0,0)),  # b, 16, 17, 17
+            nn.Upsample(scale_factor=2, mode=‘bilinear’, align_corners=True)
+            nn.Conv2d(8, 16, (3,3), stride=(1,1), padding=(0,0)),  # b, 16, 16, 16
             nn.ReLU(True),
-            nn.ConvTranspose2d(16, 32, (3,3), stride=(2,2), padding=(1,1)),  # b, 32, 33, 33
+
+            nn.Upsample(scale_factor=2, mode=‘bilinear’, align_corners=True)
+            nn.Conv2d(16, 32, (3,3), stride=(1,1), padding=(0,0)),  # b, 32, 32, 32
             nn.ReLU(True),
-            nn.ConvTranspose2d(32, 64, (3,3), stride=(2,2), padding=(1,1)),  # b, 64, 65, 65
+
+            nn.Upsample(scale_factor=2, mode=‘bilinear’, align_corners=True)
+            nn.Conv2d(32, 64, (3,3), stride=(1,1), padding=(0,0)),  # b, 64, 64, 64
             nn.ReLU(True),
-            nn.ConvTranspose2d(64, 3, (4,4), stride=(2,2), padding=(2,2)),  # b, 3, 128, 128
+
+            nn.Upsample(scale_factor=2, mode=‘bilinear’, align_corners=True)
+            nn.Conv2d(64, 3, (5,5), stride=(1,1), padding=(0,0)),  # b, 3, 128, 128
             nn.Tanh()
         )
 
