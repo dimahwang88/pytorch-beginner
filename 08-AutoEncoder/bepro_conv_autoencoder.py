@@ -112,6 +112,6 @@ for epoch in range(num_epochs):
             save_image(pic, './dc_img/image_{}_{}.png'.format(epoch, batch_num))
             print('epoch [{}/{}] batch  [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, batch_num, n_batches, loss.item()))
         
-    print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, loss.data[0]))
+    #print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, loss.data[0]))
 
 torch.save(model.state_dict(), './conv_autoencoder.pth')
