@@ -88,7 +88,7 @@ def to_img(x):
 
 num_epochs = 100
 batch_size = 64
-learning_rate = 1e-3
+learning_rate = 1e-4
 
 dataset = BeproDatasetAutoencoder(data_file)
 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
