@@ -145,11 +145,10 @@ for epoch in range(num_epochs):
         loss.backward()
         optimizer.step()
 
-        if batch_num % 200 == 0:
+        if batch_num % 300 == 0:
             pic = to_img(output.cpu().data)
             save_image(pic, './dc_img/image_{}_{}.png'.format(epoch, batch_num))
             print('epoch [{}/{}] batch  [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, batch_num, n_batches, loss.item()))
-        
-    #print('epoch [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, loss.data[0]))
 
-torch.save(model.state_dict(), './conv_autoencoder.pth')
+    ckpt_path = './dc_img/conv_autoencoder_ckpt_{}.pth'.format(epoch+1)
+    torch.save(model.state_dict(), ckpt_path)
