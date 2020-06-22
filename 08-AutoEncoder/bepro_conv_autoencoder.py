@@ -12,8 +12,6 @@ import os
 import sys
 from PIL import Image
 
-data_file = sys.argv[1]
-
 class BeproDatasetAutoencoder(Dataset):
     def __init__(self, img_txt_path):
         self.data_info = []
@@ -116,39 +114,62 @@ def to_img(x):
     x = x.view(x.size(0), 3, 128, 128)
     return x
 
-num_epochs = 100
-batch_size = 64
-learning_rate = 1e-4
+def train_autoencoder(data_file):
+    num_epochs = 100
+    batch_size = 64
+    learning_rate = 1e-4
 
-dataset = BeproDatasetAutoencoder(data_file)
-dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+    dataset = BeproDatasetAutoencoder(data_file)
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
-model = autoencoder().cuda()
-criterion = nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate,
-                             weight_decay=1e-5)
+    model = autoencoder().cuda()
+    criterion = nn.MSELoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=1e-5)
 
-n_batches = int(len(dataloader.dataset) / batch_size)
+    n_batches = int(len(dataloader.dataset) / batch_size)
 
-if not os.path.exists('./dc_img'):
-    os.mkdir('./dc_img')
+    if not os.path.exists('./dc_img'):
+        os.mkdir('./dc_img')
 
-for epoch in range(num_epochs):
+    for epoch in range(num_epochs):
+        for batch_num, data in enumerate(dataloader):
+            img = data
+            img = Variable(img).cuda()
+            # ===================forward=====================
+            output = model(img)
+            loss = criterion(output, img)
+            # ===================backward====================
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+
+            if batch_num % 600 == 0:
+                pic = to_img(output.cpu().data)
+                save_image(pic, './dc_img/image_{}_{}.png'.format(epoch, batch_num))
+                print('epoch [{}/{}] batch  [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, batch_num, n_batches, loss.item()))
+
+        ckpt_path = './dc_img/conv_autoencoder_ckpt_{}.pth'.format(epoch+1)
+        torch.save(model.state_dict(), ckpt_path)
+
+def infere_autoencoder(data_file):
+    model = autoencoder().cuda()
+
+    batch_size = 1
+    dataset = BeproDatasetAutoencoder(data_file)
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
+
     for batch_num, data in enumerate(dataloader):
         img = data
         img = Variable(img).cuda()
-        # ===================forward=====================
         output = model(img)
-        loss = criterion(output, img)
-        # ===================backward====================
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
 
-        if batch_num % 300 == 0:
-            pic = to_img(output.cpu().data)
-            save_image(pic, './dc_img/image_{}_{}.png'.format(epoch, batch_num))
-            print('epoch [{}/{}] batch  [{}/{}], loss:{:.4f}'.format(epoch+1, num_epochs, batch_num, n_batches, loss.item()))
+    print(output)
 
-    ckpt_path = './dc_img/conv_autoencoder_ckpt_{}.pth'.format(epoch+1)
-    torch.save(model.state_dict(), ckpt_path)
+if __name__=="__main__": 
+    if argv[2] == 'val':
+        infere_autoencoder(sys.agrv[1])
+    else if argv[2] == 'train':
+        train_autoencoder(sys.agrv[1])
+    else:
+        print('specify training or inference.')
+
