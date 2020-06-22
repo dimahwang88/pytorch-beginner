@@ -167,9 +167,9 @@ def infere_autoencoder(data_file):
 
 if __name__=="__main__": 
     if sys.argv[2] == 'val':
-        infere_autoencoder(sys.agrv[1])
+        infere_autoencoder(sys.argv[1])
     elif sys.argv[2] == 'train':
-        train_autoencoder(sys.agrv[1])
+        train_autoencoder(sys.argv[1])
     else:
         print('specify training or inference.')
 
