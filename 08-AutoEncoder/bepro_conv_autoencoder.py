@@ -151,9 +151,8 @@ def train_autoencoder(data_file):
         ckpt_path = './dc_img/conv_autoencoder_ckpt_{}.pth'.format(epoch+1)
         torch.save(model.state_dict(), ckpt_path)
 
-def infere_autoencoder(data_file):
-    model = autoencoder().cuda()
-
+def infere_autoencoder(data_file, pth_path):
+    model = torch.load(pth_path)
     batch_size = 1
     dataset = BeproDatasetAutoencoder(data_file)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
@@ -167,7 +166,7 @@ def infere_autoencoder(data_file):
 
 if __name__=="__main__": 
     if sys.argv[2] == 'val':
-        infere_autoencoder(sys.argv[1])
+        infere_autoencoder(sys.argv[1], sys.argv[3])
     elif sys.argv[2] == 'train':
         train_autoencoder(sys.argv[1])
     else:
