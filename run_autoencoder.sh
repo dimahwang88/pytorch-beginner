@@ -8,5 +8,5 @@
 #cd ../
 
 source activate open-mmlab
-python ./08-AutoEncoder/bepro_conv_autoencoder.py pwd_dataset.txt train
-# python ./08-AutoEncoder/bepro_conv_autoencoder.py pwd_dataset.txt train 
+# python ./08-AutoEncoder/bepro_conv_autoencoder.py pwd_dataset.txt train
+python ./08-AutoEncoder/bepro_conv_autoencoder.py infer_dataset.txt val conv_autoencoder_ckpt_44.pth

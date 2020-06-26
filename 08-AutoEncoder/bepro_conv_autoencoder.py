@@ -96,16 +96,8 @@ class autoencoder(nn.Module):
         #)
 
     def forward(self, x):
-        #for layer in self.encoder:
-        #    x = layer(x)
-        #    print(x.size())
-        #
-        #for layer in self.decoder:
-        #    x = layer(x)
-        #    print(x.size())
-
         x = self.encoder(x)       
-        x = self.decoder(x)
+        # x = self.decoder(x)
         return x
 
 def to_img(x):
@@ -152,17 +144,20 @@ def train_autoencoder(data_file):
         torch.save(model.state_dict(), ckpt_path)
 
 def infere_autoencoder(data_file, pth_path):
-    model = torch.load(pth_path)
-    batch_size = 1
+
+    model = autoencoder().cuda()
+    checkpoint = torch.load(pth_path)
+    model.load_state_dict(checkpoint)
     dataset = BeproDatasetAutoencoder(data_file)
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
+    dataloader = DataLoader(dataset, batch_size=1, shuffle=False)
 
     for batch_num, data in enumerate(dataloader):
         img = data
         img = Variable(img).cuda()
-        output = model(img)
-
-    print(output)
+        output = model.forward(img)
+        print ('output size: ' + str(output.size()))
+        # pic = to_img(output.cpu().data)
+        # save_image(pic, './test_inference.png')
 
 if __name__=="__main__": 
     if sys.argv[2] == 'val':
